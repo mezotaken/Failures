@@ -1,9 +1,9 @@
 import cv2
 import csv
-dictsize = 100
-imageset = 1000
+dictsize = 50
+imageset = 5000
 
-per5 = int(imageset/100)
+per5 = int(imageset/50)
 filename = 'ds' + str(dictsize) + '_is' + str(imageset) + '.csv'
 with open(filename,'w',newline="") as fout:
     

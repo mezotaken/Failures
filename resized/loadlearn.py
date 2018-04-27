@@ -1,8 +1,8 @@
 import numpy as np
 import cv2
 import csv
-filename = 'ds100_is1000.csv'
-skip = 100
+filename = 'ds50_is5000.csv'
+skip = 400
 with open(filename, 'r') as fin:
     reader = csv.reader(fin,quoting=csv.QUOTE_NONNUMERIC)
     dictsize,imageset = next(reader)
@@ -26,10 +26,10 @@ with open(filename, 'r') as fin:
     testresp = np.int32(testresp)
     testdesc = np.float32(testdesc)
     
-    predictor = cv2.ml.SVM_create()
+    predictor = cv2.ml.RTrees_create()
     #predictor.setKernel(cv2.ml.SVM_SIGMOID)
-    #predictor.setMaxDepth(10)
-    #predictor.setMinSampleCount(10)
+    predictor.setMaxDepth(10)
+    predictor.setMinSampleCount(10)
     #help(predictor)
     #print(predictor.getDegree())
     
