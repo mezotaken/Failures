@@ -1,7 +1,7 @@
 import cv2
 import csv
-dictsize = 100
-imageset = 1000
+dictsize = 10
+imageset = 500
 
 per5 = int(imageset/100)
 filename = 'ds' + str(dictsize) + '_is' + str(imageset) + '.csv'
@@ -15,17 +15,17 @@ with open(filename,'w',newline="") as fout:
     #Создание BOW для словаря
     BOW = cv2.BOWKMeansTrainer(dictsize)
     siftdet = cv2.xfeatures2d.SIFT_create()
-    
+    siftcalc = cv2.xfeatures2d.SIFT_create()
     #Чтение из файлов, нахождение ключевых точек, заполнение BOW
     print('Keypoints detecting, computing and preparing BOW')
-    with open('clear_full.csv', 'r') as fin:
+    with open('result.csv', 'r') as fin:
         reader = csv.reader(fin,quoting=csv.QUOTE_NONNUMERIC)
         for i in range(0,imageset):
             if(i%per5 == 0):
                 print(i/imageset)
             path,gender = next(reader)
             img = cv2.imread(path,0)
-            _,dsc = siftdet.compute(img,siftdet.detect(img,None))
+            _,dsc = siftcalc.compute(img,siftdet.detect(img,None))
             BOW.add(dsc)
     print("Ready")
     
@@ -44,7 +44,7 @@ with open(filename,'w',newline="") as fout:
         return  bow_extract.compute(img,siftdet.detect(img,None))
     
     print("Feature extraction")
-    with open('clear_full.csv', 'r') as fin:
+    with open('result.csv', 'r') as fin:
         reader = csv.reader(fin,quoting=csv.QUOTE_NONNUMERIC)
         for i in range(0,imageset):
             if(i%per5 == 0):

@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import csv
 dictsize = 25
-imageset = 1000
+imageset = 1569
 skip = 200 
 
 per5 = int(imageset/10)
@@ -11,7 +11,7 @@ BOW = cv2.BOWKMeansTrainer(dictsize)
 siftdet = cv2.xfeatures2d.SIFT_create()
 
 print('Keypoints detecting, computing and preparing BOW')
-with open('clear_full.csv', 'r') as fin:
+with open('result.csv', 'r') as fin:
     reader = csv.reader(fin,quoting=csv.QUOTE_NONNUMERIC)
     for i in range(0,imageset):
         if(i%per5 == 0):
@@ -37,7 +37,7 @@ def feature_extract(pth):
     return  bow_extract.compute(img,siftdet.detect(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)))
 
 print("Feature extraction")
-with open('clear_full.csv', 'r') as fin:
+with open('result.csv', 'r') as fin:
     reader = csv.reader(fin,quoting=csv.QUOTE_NONNUMERIC)
     train_desc = []
     responses = []
@@ -66,7 +66,7 @@ predictor.train(train_desc, cv2.ml.ROW_SAMPLE,responses )
 count = 0
 _,r = predictor.predict(testdesc)
 for i in range(0,skip):
-    if(testresp[i] == int(r[i][0]):
+    if(testresp[i] == int(r[i][0])):
         count = count +1
  
 print(count/skip)
